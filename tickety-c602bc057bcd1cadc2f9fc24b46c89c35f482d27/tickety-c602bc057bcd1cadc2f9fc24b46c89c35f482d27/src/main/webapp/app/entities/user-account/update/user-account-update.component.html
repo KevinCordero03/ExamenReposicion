@@ -1,0 +1,211 @@
+<div class="container-fluid bg-dark">
+  <div class="row flex-nowrap">
+    <!-- DISPLAY NAVBAR BASED ON USER AUTHORITY -->
+    <div
+      class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
+      style="border: 1px solid gray !important; width: 280px; height: 80vh"
+    >
+      <hr />
+      <ul *ngIf="userHasOnlyUserRole()" class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+          <a (click)="changeViewMode(VIEWMODE_PREFERENCES)" class="nav-link text-light" aria-current="page">
+            <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+            Perfil de {{ userType }}
+          </a>
+        </li>
+
+        <li>
+          <a class="nav-link text-light">
+            <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+            Mis tickets
+          </a>
+        </li>
+        <li>
+          <a routerLink="/organization/new" class="nav-link text-light">
+            <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
+            Crear organización
+          </a>
+        </li>
+
+        <hr />
+
+        <li>
+          <a routerLink="/account/password" class="nav-link text-light">
+            <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+            Cambiar contraseña
+          </a>
+        </li>
+
+        <li>
+          <a (click)="logout()" class="nav-link text-light">
+            <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+            Cerrar sesión
+          </a>
+        </li>
+      </ul>
+
+      <ul *ngIf="userHasOrganizationOrPromoterRole()" class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+          <a class="nav-link text-light" aria-current="page">
+            <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+            Perfil de {{ userType }}
+          </a>
+        </li>
+
+        <li>
+          <a class="nav-link text-light" routerLink="/event">
+            <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
+            Eventos
+          </a>
+        </li>
+
+        <li>
+          <a routerLink="/organization/invite-promoter" class="nav-link text-light">
+            <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+            Invitar promotor
+          </a>
+        </li>
+
+        <hr />
+
+        <li>
+          <a routerLink="/account/password" class="nav-link text-light">
+            <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+            Cambiar contraseña
+          </a>
+        </li>
+
+        <li>
+          <a (click)="logout()" class="nav-link text-light">
+            <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+            Cerrar sesión
+          </a>
+        </li>
+      </ul>
+
+      <hr />
+    </div>
+
+    <section class="vh-70 bg-image section" *ngIf="currentViewMode === VIEWMODE_PREFERENCES">
+      <div class="mask d-flex align-items-center gradient-custom-3">
+        <div class="container h-50">
+          <div class="row d-flex align-items-center h-100">
+            <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+              <div class="bg-dark" style="color: white; margin: 5% 0 -30 30%; width: 100%">
+                <div class="card-body p-5">
+                  <h2 class="text-center mb-5">Editar perfil</h2>
+
+                  <jhi-alert-error></jhi-alert-error>
+
+                  <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+                    <div formGroupName="user" class="mb-3">
+                      <label class="form-label" for="nombre">Nombre</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="nombre"
+                        name="nombre"
+                        placeholder="Nombre"
+                        formControlName="firstName"
+                        data-cy="username"
+                        #name
+                      />
+
+                      <div
+                        *ngIf="
+                          editForm.get('user.firstName')!.invalid &&
+                          (editForm.get('user.firstName')!.dirty || editForm.get('user.firstName')!.touched)
+                        "
+                      >
+                        <small class="form-text text-danger" *ngIf="editForm.get('user.firstName')?.errors?.required">
+                          Su nombre es obligatorio.
+                        </small>
+
+                        <small class="form-text text-danger" *ngIf="editForm.get('user.firstName')?.errors?.minlength">
+                          Su nombre debe tener al menos 1 caracter.
+                        </small>
+
+                        <small class="form-text text-danger" *ngIf="editForm.get('user.firstName')?.errors?.maxlength">
+                          Su nombre no puede tener más de 50 caracteres.
+                        </small>
+
+                        <small class="form-text text-danger" *ngIf="editForm.get('user.firstName')?.errors?.pattern">
+                          Su nombre no es válido.
+                        </small>
+                      </div>
+                    </div>
+
+                    <div formGroupName="user" class="mb-3">
+                      <label class="form-label" for="apellido">Apellido</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="apellido"
+                        name="apellido"
+                        placeholder="Apellido"
+                        formControlName="lastName"
+                        data-cy="username"
+                        #name
+                      />
+
+                      <div
+                        *ngIf="
+                          editForm.get('user.lastName')!.invalid &&
+                          (editForm.get('user.lastName')!.dirty || editForm.get('user.lastName')!.touched)
+                        "
+                      >
+                        <small class="form-text text-danger" *ngIf="editForm.get('user.lastName')?.errors?.required">
+                          Su apellido es obligatorio.
+                        </small>
+
+                        <small class="form-text text-danger" *ngIf="editForm.get('user.lastName')?.errors?.minlength">
+                          Su apellido debe tener al menos 1 caracter.
+                        </small>
+
+                        <small class="form-text text-danger" *ngIf="editForm.get('user.lastName')?.errors?.maxlength">
+                          Su apellido no puede tener más de 50 caracteres.
+                        </small>
+
+                        <small class="form-text text-danger" *ngIf="editForm.get('user.lastName')?.errors?.pattern">
+                          Su apellido no es válido.
+                        </small>
+                      </div>
+                    </div>
+
+                    <div class="mb-3">
+                      <label class="form-label" for="field_genderu">Género</label>
+                      <select class="form-control" name="genderu" formControlName="genderu" id="field_genderu" data-cy="genderu">
+                        <option [ngValue]="null">{{ null }}</option>
+                        <option *ngFor="let gender of genderValues" [value]="gender">{{ gender }}</option>
+                      </select>
+                    </div>
+
+                    <button
+                      type="submit"
+                      id="save-entity"
+                      data-cy="entityCreateSaveButton"
+                      [disabled]="editForm.invalid || isSaving"
+                      class="btn btn-primary"
+                    >
+                      <span>Actualizar</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      id="cancel-save"
+                      data-cy="entityCreateCancelButton"
+                      class="btn btn-secondary"
+                      (click)="previousState()"
+                    >
+                      <span>Cancelar</span>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

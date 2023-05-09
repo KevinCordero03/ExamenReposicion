@@ -1,0 +1,79 @@
+<div style="margin-top: 3%">
+  <h2 style="margin-left: 10%; font-weight: bold">
+    <span>Locales</span>
+  </h2>
+
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+      <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+    </button>
+
+    <button
+      id="jh-create-entity"
+      data-cy="entityCreateButton"
+      class="btn btn-primary jh-create-entity create-venue"
+      [routerLink]="['/venue/new']"
+    >
+      <span jhiTranslate="ticketyApp.venue.home.createLabel"> Crear nuevo Venue </span>
+    </button>
+  </div>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="venues?.length === 0">
+    <span>Ningún Venues encontrado</span>
+  </div>
+
+  <div class="table-responsive table-entities tickety-table" *ngIf="venues && venues.length > 0">
+    <table class="table table-hover">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th class="text-center" scope="col" jhiSortBy="name">
+            <span>Nombre</span>
+            <fa-icon class="p-1" icon="sort"></fa-icon>
+          </th>
+
+          <th class="text-center" scope="col" jhiSortBy="description">
+            <span>Descripción</span>
+            <fa-icon class="p-1" icon="sort"></fa-icon>
+          </th>
+
+          <th class="text-center" scope="col" jhiSortBy="address">
+            <span>Dirección</span>
+            <fa-icon class="p-1" icon="sort"></fa-icon>
+          </th>
+
+          <th class="text-center" scope="col" jhiSortBy="capacity">
+            <span>Capacidad del local</span>
+            <fa-icon class="p-1" icon="sort"></fa-icon>
+          </th>
+
+          <th class="text-center" scope="col">Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let venue of venues; trackBy: trackId" data-cy="entityTable">
+          <td class="text-center">{{ venue.name }}</td>
+          <td class="text-center">{{ venue.description }}</td>
+          <td class="text-center">{{ venue.address }}</td>
+          <td class="text-center">{{ venue.capacity }}</td>
+          <td class="text-center">
+            <div class="btn-group">
+              <button
+                style="margin-right: 5px"
+                type="submit"
+                [routerLink]="['/venue', venue.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+              </button>
+
+              <button type="submit" (click)="delete(venue)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

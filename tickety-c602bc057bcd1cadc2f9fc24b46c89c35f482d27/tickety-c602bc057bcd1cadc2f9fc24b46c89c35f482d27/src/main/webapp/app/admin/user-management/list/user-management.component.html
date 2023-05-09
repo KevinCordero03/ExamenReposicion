@@ -1,0 +1,101 @@
+<div style="margin-top: 3%">
+  <h2 style="margin-left: 10%; font-weight: bold">
+    <span>Usuarios</span>
+  </h2>
+
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading">
+      <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+    </button>
+
+    <button class="btn btn-primary" [routerLink]="['./new']">
+      <span>Registrar usuario administrador</span>
+    </button>
+  </div>
+
+  <div class="table-responsive tickety-table" *ngIf="users">
+    <table class="table table-hover">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="transition()">
+          <th class="text-center" scope="col" jhiSortBy="login">
+            <span>Nombre de usuario</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th class="text-center" scope="col" jhiSortBy="email">
+            <span>Correo electrónico</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th class="text-center" scope="col">Estatus</th>
+          <th class="text-center" scope="col"><span>Roles</span></th>
+          <th class="text-center" scope="col" jhiSortBy="createdDate">
+            <span>Fecha de creación</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th class="text-center" scope="col">Acción</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="users">
+        <tr *ngFor="let user of users; trackBy: trackIdentity">
+          <td class="text-center">{{ user.login }}</td>
+          <td class="text-center">{{ user.email }}</td>
+          <td class="text-center">
+            <button
+              class="btn btn-danger btn-sm"
+              (click)="setActive(user, true)"
+              *ngIf="!user.activated"
+              jhiTranslate="userManagement.deactivated"
+            >
+              Desactivado
+            </button>
+            <button
+              style="border-radius: 30px"
+              class="btn btn-success btn-sm"
+              (click)="setActive(user, false)"
+              *ngIf="user.activated"
+              [disabled]="!currentAccount || currentAccount.login === user.login"
+            >
+              Activado
+            </button>
+          </td>
+          <td class="text-center">
+            <div *ngFor="let authority of user.authorities">
+              <span style="border-radius: 30px" class="badge bg-info">{{ authority }}</span>
+            </div>
+          </td>
+          <td class="text-center">{{ user.createdDate | date: 'dd/MM/yy' }}</td>
+          <td class="text-center">
+            <div class="btn-group">
+              <button
+                type="button"
+                (click)="deleteUser(user)"
+                class="btn btn-danger btn-sm"
+                [disabled]="!currentAccount || currentAccount.login === user.login"
+              >
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline"></span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="users">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="transition()"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>
