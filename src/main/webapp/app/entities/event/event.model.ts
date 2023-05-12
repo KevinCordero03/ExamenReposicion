@@ -4,6 +4,7 @@ import { IUserAccount } from 'app/entities/user-account/user-account.model';
 import { IOrganization } from 'app/entities/organization/organization.model';
 import { IVenue } from 'app/entities/venue/venue.model';
 import { EventSatus } from 'app/entities/enumerations/event-satus.model';
+import { ITicket } from '../ticket/ticket.model';
 
 export interface IEvent {
   id: number;
@@ -19,6 +20,8 @@ export interface IEvent {
   venue?: Pick<IVenue, 'id'> | null;
   // this is only use for showing the main image for the event
   showCase?: string | null;
+  clients?: IUserAccount[] | null;
+  ticketsSold?: ITicket[] | null;
 }
 
 export type NewEvent = Omit<IEvent, 'id'> & { id: null };

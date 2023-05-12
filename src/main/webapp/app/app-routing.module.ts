@@ -19,6 +19,14 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
         canActivate: [UserRouteAccessService],
         loadChildren: () => import('./admin/admin-routing.module').then(m => m.AdminRoutingModule),
       },
+      /*{
+        path: 'promoter',
+        data: {
+          authorities: [Authority.ORGANIZATION],
+        },
+        canActivate: [UserRouteAccessService],
+        loadChildren: () => import('./promoter/event-user/event-user.module').then(m => m.EventUserModule),
+      },*/
       {
         path: 'account',
         loadChildren: () => import('./account/account.module').then(m => m.AccountModule),
@@ -54,6 +62,10 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
       {
         path: 'ticket',
         loadChildren: () => import('./entities/ticket/ticket.module').then(m => m.TicketModule),
+      },
+      {
+        path: 'promoter',
+        loadChildren: () => import('./promoter/promoter.module').then(m => m.PromoterModule),
       },
       {
         path: '',

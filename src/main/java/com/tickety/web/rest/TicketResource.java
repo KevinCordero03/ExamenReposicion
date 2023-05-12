@@ -194,4 +194,10 @@ public class TicketResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }
+
+    @GetMapping("/tickets/event/{id}")
+    public List<Ticket> getTicketsEvent(@PathVariable Event id) {
+        log.debug("REST request to get all Tickets");
+        return ticketRepository.findByEvent(id);
+    }
 }

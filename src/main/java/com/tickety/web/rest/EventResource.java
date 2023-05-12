@@ -1,10 +1,16 @@
 package com.tickety.web.rest;
 
 import com.tickety.domain.Event;
+import com.tickety.domain.User;
+import com.tickety.domain.UserAccount;
 import com.tickety.repository.EventRepository;
+import com.tickety.repository.UserAccountRepository;
+import com.tickety.repository.UserRepository;
+import com.tickety.security.SecurityUtils;
 import com.tickety.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -27,6 +33,8 @@ import tech.jhipster.web.util.ResponseUtil;
 @Transactional
 public class EventResource {
 
+    private final UserAccountRepository userAccountRepository;
+    private final UserRepository userRepository;
     private final Logger log = LoggerFactory.getLogger(EventResource.class);
 
     private static final String ENTITY_NAME = "event";
@@ -36,7 +44,9 @@ public class EventResource {
 
     private final EventRepository eventRepository;
 
-    public EventResource(EventRepository eventRepository) {
+    public EventResource(UserAccountRepository userAccountRepository, UserRepository userRepository, EventRepository eventRepository) {
+        this.userAccountRepository = userAccountRepository;
+        this.userRepository = userRepository;
         this.eventRepository = eventRepository;
     }
 
@@ -191,5 +201,26 @@ public class EventResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping("/myevents")
+    public List<Event> getAllOrgEvents() {
+        log.debug("REST request to get all Organization Events");
+
+        Optional<String> login = SecurityUtils.getCurrentUserLogin();
+        User user = userRepository.findOneByLogin(login.get()).get();
+        UserAccount currentUserAccount = userAccountRepository.findByUser(user).get();
+
+        List<Event> allEvents = eventRepository.findAll();
+        List<Event> myEvents = new ArrayList<>();
+
+        for (Event e : allEvents) {
+            log.debug("User on event" + e.getUserAccount().getUser().toString());
+            if (e.getUserAccount().getOrganization().equals(currentUserAccount.getOrganization())) {
+                myEvents.add(e);
+            }
+        }
+
+        return myEvents;
     }
 }

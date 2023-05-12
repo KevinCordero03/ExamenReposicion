@@ -1,0 +1,69 @@
+<div class="mr-4 mx-auto">
+  <div>
+    <h1 style="padding: 20px; background-color: #152238; color: white; margin-bottom: 0px">Reporte de ventas</h1>
+  </div>
+
+  <mat-accordion class="mt-4" *ngFor="let event of events; let i = index" style="background-color: #e9e8e8">
+    <mat-expansion-panel hideToggle style="background-color: #e9e8e8">
+      <mat-expansion-panel-header style="background-color: #e9e8e8">
+        <mat-panel-title style="background-color: #e9e8e8">
+          <h4 style="margin-top: 10px">{{ event.eventName }}</h4>
+        </mat-panel-title>
+        <mat-panel-description>
+          <h5>{{ event.eventDescription }}</h5>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div class="container" style="background-color: #e9e8e8">
+        <div class="row">
+          <div class="col-sm">
+            <canvas baseChart [data]="lineChartData[i]" [type]="'doughnut'"> </canvas>
+          </div>
+          <div class="col-sm"></div>
+          <div class="col-sm">
+            <div>
+              <h5>Ganancias totales: {{ '₡' + totalEarning[i] }}</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mat-elevation-z8" style="margin-top: 20px">
+        <table mat-table [dataSource]="dataArray[i]">
+          <!-- Position Column -->
+          <ng-container matColumnDef="Fecha">
+            <th mat-header-cell *matHeaderCellDef><h5>Fecha</h5></th>
+            <td mat-cell *matCellDef="let element">{{ element.date }}</td>
+          </ng-container>
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="Nombre">
+            <th mat-header-cell *matHeaderCellDef><h5>Nombre</h5></th>
+            <td mat-cell *matCellDef="let element">{{ element.userAccount?.user?.firstName }}</td>
+          </ng-container>
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="Apellido">
+            <th mat-header-cell *matHeaderCellDef><h5>Apellido</h5></th>
+            <td mat-cell *matCellDef="let element">{{ element.userAccount?.user?.lastName }}</td>
+          </ng-container>
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="Email">
+            <th mat-header-cell *matHeaderCellDef><h5>Correo</h5></th>
+            <td mat-cell *matCellDef="let element">{{ element.userAccount?.user?.email }}</td>
+          </ng-container>
+          <!-- Position Column -->
+
+          <ng-container matColumnDef="Precio">
+            <th mat-header-cell *matHeaderCellDef><h5>Precio</h5></th>
+            <td mat-cell *matCellDef="let element">{{ element.amount }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

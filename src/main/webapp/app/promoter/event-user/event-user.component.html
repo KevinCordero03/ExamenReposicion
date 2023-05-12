@@ -1,0 +1,38 @@
+<div class="mr-4 mx-auto">
+  <div>
+    <h1 style="padding: 20px; background-color: #152238; color: white">Mis clientes</h1>
+  </div>
+  <mat-accordion *ngFor="let event of events">
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h4>{{ event.eventName }}</h4>
+        </mat-panel-title>
+        <mat-panel-description>
+          <h5>{{ event.eventDescription }}</h5>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Email</th>
+            <th scope="col">Género</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let client of event.clients; index as indexOfelement">
+            <th scope="row">{{ indexOfelement + 1 }}</th>
+            <td>{{ client.user?.firstName }}</td>
+            <td>{{ client.user?.lastName }}</td>
+            <td>{{ client.user?.email }}</td>
+            <td>{{ client.genderu }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

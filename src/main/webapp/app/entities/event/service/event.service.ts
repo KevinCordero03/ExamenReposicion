@@ -28,6 +28,7 @@ export type EntityArrayResponseType = HttpResponse<IEvent[]>;
 @Injectable({ providedIn: 'root' })
 export class EventService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/events');
+  protected myResourceUrl = this.applicationConfigService.getEndpointFor('api/myevents');
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
@@ -54,6 +55,13 @@ export class EventService {
     return this.http
       .get<RestEvent>(`${this.resourceUrl}/${id}`, { observe: 'response' })
       .pipe(map(res => this.convertResponseFromServer(res)));
+  }
+
+  myQuery(req?: any): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<RestEvent[]>(this.myResourceUrl, { params: options, observe: 'response' })
+      .pipe(map(res => this.convertResponseArrayFromServer(res)));
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {

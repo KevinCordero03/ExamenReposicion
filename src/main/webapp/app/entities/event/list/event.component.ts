@@ -105,7 +105,7 @@ export class EventComponent implements OnInit {
     const queryObject = {
       sort: this.getSortQueryParam(predicate, ascending),
     };
-    return this.eventService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
+    return this.eventService.myQuery(queryObject).pipe(tap(() => (this.isLoading = false)));
   }
 
   protected handleNavigation(predicate?: string, ascending?: boolean): void {

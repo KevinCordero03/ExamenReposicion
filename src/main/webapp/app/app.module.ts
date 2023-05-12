@@ -35,6 +35,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   imports: [
@@ -55,9 +57,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MatIconModule,
     MatButtonModule,
     MatFormFieldModule,
+    MatExpansionModule,
     MatInputModule,
     MatCardModule,
     FontAwesomeModule,
+    NgChartsModule,
   ],
   providers: [
     Title,
@@ -67,6 +71,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   ],
   declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, ActiveMenuDirective, FooterComponent],
   bootstrap: [MainComponent],
+  exports: [],
 })
 export class AppModule {
   constructor(applicationConfigService: ApplicationConfigService, iconLibrary: FaIconLibrary, dpConfig: NgbDatepickerConfig) {
