@@ -1,12 +1,16 @@
-<div class="mr-4 mx-auto">
+<div class="mr-4 mx-auto" style="background-color: #152238">
   <div>
-    <h1 style="padding: 20px; background-color: #152238; color: white; margin-bottom: 0px">Reporte de ventas</h1>
+    <h1 style="padding: 20px; background-color: #152238; color: white; margin-bottom: 0px; margin-left: 20px">Reporte de ventas</h1>
   </div>
 
-  <mat-accordion class="mt-4" *ngFor="let event of events; let i = index" style="background-color: #e9e8e8">
-    <mat-expansion-panel hideToggle style="background-color: #e9e8e8">
-      <mat-expansion-panel-header style="background-color: #e9e8e8">
-        <mat-panel-title style="background-color: #e9e8e8">
+  <mat-accordion
+    class="mt-4"
+    *ngFor="let event of events; let i = index"
+    style="background-color: #e9e8e8; border-radius: 25px; width: 95%; margin-left: 40px"
+  >
+    <mat-expansion-panel hideToggle style="background-color: #e9e8e8; border-radius: 25px; width: 95%; margin-left: 40px">
+      <mat-expansion-panel-header style="background-color: #e9e8e8; border-radius: 25px; width: 95%; margin-left: 40px">
+        <mat-panel-title style="background-color: #e9e8e8; border-radius: 25px; width: 95%; margin-left: 40px">
           <h4 style="margin-top: 10px">{{ event.eventName }}</h4>
         </mat-panel-title>
         <mat-panel-description>
@@ -14,7 +18,7 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <div class="container" style="background-color: #e9e8e8">
+      <div class="container" style="background-color: #e9e8e8; border-radius: 25px; width: 95%; text-align: center">
         <div class="row">
           <div class="col-sm">
             <canvas baseChart [data]="lineChartData[i]" [type]="'doughnut'"> </canvas>

@@ -1,11 +1,11 @@
-<div class="mr-4 mx-auto">
+<div class="mr-4 mx-auto" style="background-color: #152238">
   <div>
-    <h1 style="padding: 20px; background-color: #152238; color: white">Mis clientes</h1>
+    <h1 style="padding: 20px; background-color: #152238; color: white; margin-bottom: 0px; margin-left: 20px">Mis clientes</h1>
   </div>
-  <mat-accordion *ngFor="let event of events">
-    <mat-expansion-panel hideToggle>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
+  <mat-accordion *ngFor="let event of events" style="background-color: #e9e8e8; border-radius: 25px; width: 95%; margin-left: 40px">
+    <mat-expansion-panel hideToggle style="background-color: #e9e8e8; border-radius: 25px; width: 95%; margin-left: 40px">
+      <mat-expansion-panel-header style="background-color: #e9e8e8; border-radius: 25px; width: 95%; margin-left: 40px">
+        <mat-panel-title style="background-color: #e9e8e8; border-radius: 25px; width: 95%; margin-left: 40px">
           <h4>{{ event.eventName }}</h4>
         </mat-panel-title>
         <mat-panel-description>
